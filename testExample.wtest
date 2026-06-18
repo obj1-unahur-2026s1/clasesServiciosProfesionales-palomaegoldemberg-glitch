@@ -1,4 +1,5 @@
 import servicios.*
+import solicitantes.*
 
 describe "Tests de la Empresa de Servicios Profesionales" {
 
@@ -14,6 +15,10 @@ describe "Tests de la Empresa de Servicios Profesionales" {
 
   const laEmpresa = new Empresa(honorarioDeReferencia = 3500, profesionales = #{juana,melina, rocio, luciana})
   
+  const personaCordoba = new Persona(provincia = "Córdoba")
+  const personaMendoza = new Persona(provincia = "Mendoza")
+
+
   test "Profesionales caros de la empresa"{
     assert.equals(#{rocio}, laEmpresa.profesionalesCaros())
   }
@@ -21,4 +26,16 @@ describe "Tests de la Empresa de Servicios Profesionales" {
   test "Universidades formadoras" {
     assert.equals(#{rosario, corrientes, hurlingham}, laEmpresa.universidadesFormadoras())
   }
+
+  test "La empresa puede satisfacer a distintos solicitantes"{
+    assert.that(laEmpresa.puedeSatisfacerA(personaCordoba))
+
+    assert.notThat(laEmpresa.puedeSatisfacerA(personaMendoza))
+  }
+
+  test "Al cobrar la universidad recibe la donacion"{
+    juana.cobrar(1000)
+    assert.equals(500, rosario.totalRecaudado())
+  }
+
 }
